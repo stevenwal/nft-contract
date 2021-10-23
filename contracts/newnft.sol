@@ -97,11 +97,6 @@ contract Essences is ERC721Enumerable, Ownable, ReentrancyGuard {
         whitelistIsActive = !whitelistIsActive;
     }
 
-    //Turn sale active
-    function flipSashimonoState() public onlyOwner {
-        mintingIsActive = !mintingIsActive;
-    }
-
     // internal function override
     function _baseURI() internal view virtual override returns (string memory) {
         return baseTokenURI;

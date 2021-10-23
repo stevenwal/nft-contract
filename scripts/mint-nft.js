@@ -6,11 +6,11 @@ const PRIVATE_KEY = process.env.PRIVATE_KEY
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3")
 const web3 = createAlchemyWeb3(API_URL)
 
-const contract = require("../artifacts/contracts/nft.sol/MyNFT.json")
-const contractAddress = "0x30234f1864832eE1ea0Bf598102484Fd3857fA63"
+const contract = require("../artifacts/contracts/newnft.sol/Essences.json")
+const contractAddress = "0x72E8B06cD54b45FcCd48aBd247fF56194BC03a27"
 const nftContract = new web3.eth.Contract(contract.abi, contractAddress)
 
-async function mintNFT(tokenURI) {
+async function mintNFT(count) {
   const nonce = await web3.eth.getTransactionCount(PUBLIC_KEY, "latest") //get latest nonce
 
   //the transaction
@@ -19,7 +19,8 @@ async function mintNFT(tokenURI) {
     to: contractAddress,
     nonce: nonce,
     gas: 500000,
-    data: nftContract.methods.mintNFT(PUBLIC_KEY, tokenURI).encodeABI(),
+    value: 50000000000000000,
+    data: nftContract.methods.mintEssences(count).encodeABI(),
   }
 
   const signPromise = web3.eth.accounts.signTransaction(tx, PRIVATE_KEY)
@@ -47,6 +48,4 @@ async function mintNFT(tokenURI) {
     })
 }
 
-mintNFT(
-    "https://gateway.pinata.cloud/ipfs/QmbpMgDM2emvPcwEWc6GxkxMjHdM1asZUphjsERk9h2AbG"
-)
+mintNFT(1)
